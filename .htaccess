@@ -1,0 +1,22 @@
+# ---- Make pages render without their extension in the url
+Options +MultiViews
+Options +FollowSymLinks
+
+# Turn Rewrite Engine On
+RewriteEngine On
+
+FallbackResource /process.php
+
+RewriteRule ^([0-9A-Za-z_-]+)\/?$ post.php?blog=$1 [NC]
+
+# RewriteRule ^/?list/([0-9a-zA-Z_-]+)$ /category.php?posts=$1 [NC,L]
+
+RewriteRule ^post/([a-zA-Z-]*).html /post/posts.php?posts=$1 [QSA,L]
+
+## NC makes the rule non case sensitive
+# L makes this the last rule that this specific condition will match
+# $ in the regular expression makes the matching stop so that "customblah" will not work
+
+RewriteCond %{REQUEST_FILENAME} !-f 
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . index.php [L]
